@@ -10,14 +10,6 @@ project:
         - file: ../libs/board/devkit_gen2/board_init.c
         - file: ../libs/board/appkit_gen2/board_init.c
 
-  linker:
-    - script: ../linker/gcc_M55_HE.ld
-      for-compiler: GCC
-      for-context: +HE
-    - script: ../linker/gcc_M55_HP.ld
-      for-compiler: GCC
-      for-context: +HP
-
   misc:
     - ASM:
       - -include "Pre_Include_Global.h"
