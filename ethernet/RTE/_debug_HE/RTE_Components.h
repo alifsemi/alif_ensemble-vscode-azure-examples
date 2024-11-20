@@ -22,6 +22,8 @@
 #define RTE_Drivers_GPIO   1           /* Driver GPIO */
 /* AlifSemiconductor::Device:SOC Peripherals:PINCONF@1.3.0 */
 #define RTE_Drivers_LL_PINCONF   1           /* Driver PinPAD and PinMux */
+/* AlifSemiconductor::Device:SOC Peripherals:SDMMC@1.3.0 */
+#define RTE_Drivers_SD   1           /* Driver SD */
 /* AlifSemiconductor::Device:SOC Peripherals:USART@1.3.0 */
 #define RTE_Drivers_USART0   1           /* Driver UART0 */
 #define RTE_Drivers_USART1   1           /* Driver UART1 */
