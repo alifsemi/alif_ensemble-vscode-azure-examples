@@ -3,8 +3,7 @@ project:
   groups:
     - group: App
       files:
-        - file: demo_netx.c
-        - file: dhcp/nxd_dhcp_client.c
+        - file: LED_blink_app.c
 
   misc:
     - ASM:
@@ -17,7 +16,7 @@ project:
       - bin
 
   layers:
-    - layer: ../device/alif-ensemble.clayer.yaml
+    - layer: ../device/alif-ensemble.clayer.yml
 
   components:
     - component: AlifSemiconductor::RTOS&AzureRTOS:Kernel:Core
@@ -27,5 +26,5 @@ project:
     # - component: AlifSemiconductor::RTOS&AzureRTOS:USBX:Core
     # - component: AlifSemiconductor::RTOS&AzureRTOS:USBX:CDC Device Class
     # - component: AlifSemiconductor::RTOS&AzureRTOS:USBX:Device Class Driver
-    - component: AlifSemiconductor::RTOS&AzureRTOS:Netx Duo:Core
-    - component: AlifSemiconductor::RTOS&AzureRTOS:Netx Duo:Ethernet Driver
+    # - component: AlifSemiconductor::RTOS&AzureRTOS:Netx Duo:Core
+    # - component: AlifSemiconductor::RTOS&AzureRTOS:Netx Duo:Ethernet Driver

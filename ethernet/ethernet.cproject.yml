@@ -3,7 +3,8 @@ project:
   groups:
     - group: App
       files:
-        - file: Demo_SD_FileX.c
+        - file: demo_netx.c
+        - file: dhcp/nxd_dhcp_client.c
 
   misc:
     - ASM:
@@ -16,15 +17,15 @@ project:
       - bin
 
   layers:
-    - layer: ../device/alif-ensemble.clayer.yaml
+    - layer: ../device/alif-ensemble.clayer.yml
 
   components:
     - component: AlifSemiconductor::RTOS&AzureRTOS:Kernel:Core
     - component: AlifSemiconductor::RTOS&AzureRTOS:Kernel:GCC_Port
-    - component: AlifSemiconductor::RTOS&AzureRTOS:FILEX:Core
-    - component: AlifSemiconductor::RTOS&AzureRTOS:FILEX:SD Driver
+    # - component: AlifSemiconductor::RTOS&AzureRTOS:FILEX:Core
+    # - component: AlifSemiconductor::RTOS&AzureRTOS:FILEX:SD Driver
     # - component: AlifSemiconductor::RTOS&AzureRTOS:USBX:Core
     # - component: AlifSemiconductor::RTOS&AzureRTOS:USBX:CDC Device Class
     # - component: AlifSemiconductor::RTOS&AzureRTOS:USBX:Device Class Driver
-    # - component: AlifSemiconductor::RTOS&AzureRTOS:Netx Duo:Core
-    # - component: AlifSemiconductor::RTOS&AzureRTOS:Netx Duo:Ethernet Driver
+    - component: AlifSemiconductor::RTOS&AzureRTOS:Netx Duo:Core
+    - component: AlifSemiconductor::RTOS&AzureRTOS:Netx Duo:Ethernet Driver
