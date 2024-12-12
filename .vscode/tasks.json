@@ -42,6 +42,7 @@
                 "cpackget init https://www.keil.com/pack/index.pidx;",
                 "cpackget add https://github.com/ARM-software/CMSIS_6/releases/download/v6.0.0/ARM.CMSIS.6.0.0.pack;",
                 "cpackget add https://github.com/alifsemi/alif_ensemble-cmsis-dfp/releases/download/v1.3.1/AlifSemiconductor.Ensemble.1.3.1.pack;",
+                "cpackget add https://github.com/alifsemi/alif_ensemble-cmsis-dfp/releases/download/v1.3.0-E1C/AlifSemiconductor.Ensemble.1.3.0-E1C.pack;",
                 "cpackget add https://github.com/alifsemi/alif_ensemble-Azure-RTOS/releases/download/v1.3.0/AlifSemiconductor.AzureRTOS.1.3.0.pack;",
                 "cpackget list;",
                 "echo 'Pack installation has been completed'"

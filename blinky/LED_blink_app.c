@@ -13,6 +13,8 @@
 #include "pinconf.h"
 #include <stdio.h>
 #include "RTE_Components.h"
+#include "board.h"
+
 #if defined(RTE_Compiler_IO_STDOUT)
 #include "retarget_stdout.h"
 #endif  /* RTE_Compiler_IO_STDOUT */
@@ -20,26 +22,14 @@
 
 #define LED_BLINK_THREAD_STACK_SIZE     (1024)
 
-/* LED0 gpio pins */
-#define GPIO12_PORT                     12
-#define PIN3                            3
-
-#define GPIO15_PORT                     15
-#define PIN4                            4
-
 TX_THREAD                               led_thread;
 TX_EVENT_FLAGS_GROUP                    event_flags_button;
 
 #define BUTTON_EVENT                    0x01
 
-/* GPIO port used for LED0_R */
-extern  ARM_DRIVER_GPIO ARM_Driver_GPIO_(GPIO12_PORT);
-ARM_DRIVER_GPIO *gpioDrv12 = &ARM_Driver_GPIO_(GPIO12_PORT);
-
 /* GPIO port used for button */
 extern  ARM_DRIVER_GPIO ARM_Driver_GPIO_(GPIO15_PORT);
 ARM_DRIVER_GPIO *gpioDrv15 = &ARM_Driver_GPIO_(GPIO15_PORT);
-
 
 static void button_callback(uint32_t event)
 {
@@ -56,65 +46,13 @@ static void button_callback(uint32_t event)
 */
 void led_blink_app (ULONG thread_input)
 {
-    int32_t ret1 = 0;
-    uint8_t LED0_R = PIN3;
-    uint8_t BUTTON = PIN4;
-
     printf("led blink demo application for ThreadX started\n\n");
 
-    /* pinmux configurations for all GPIOs */
-    pinconf_set(GPIO12_PORT, LED0_R, PINMUX_ALTERNATE_FUNCTION_0, 0);
+    BOARD_BUTTON2_Init(&button_callback);
+    BOARD_BUTTON2_Control(BOARD_BUTTON_ENABLE_INTERRUPT);
 
-    uint32_t config_button = PADCTRL_READ_ENABLE | PADCTRL_SCHMITT_TRIGGER_ENABLE |PADCTRL_DRIVER_DISABLED_PULL_UP;
-    pinconf_set(GPIO15_PORT, BUTTON, PINMUX_ALTERNATE_FUNCTION_0, config_button);
-
-    ret1 = gpioDrv12->Initialize(LED0_R, NULL);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to initialize\n");
-        return;
-    }
-    ret1 = gpioDrv15->Initialize(BUTTON, button_callback);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to initialize\n");
-        return;
-    }
-
-    ret1 = gpioDrv12->PowerControl(LED0_R, ARM_POWER_FULL);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to powered full\n");
-        goto error_uninitialize;
-    }
-    ret1 = gpioDrv15->PowerControl(BUTTON, ARM_POWER_FULL);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to powered full\n");
-        goto error_uninitialize;
-    }
-
-    ret1 = gpioDrv12->SetDirection(LED0_R, GPIO_PIN_DIRECTION_OUTPUT);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to configure\n");
-        goto error_power_off;
-    }
-    ret1 = gpioDrv15->SetDirection(BUTTON, GPIO_PIN_DIRECTION_INPUT);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to configure\n");
-        goto error_power_off;
-    }
-
-    /* Configure button GPIO IRQ */
-    uint32_t button_irq_settings = ARM_GPIO_IRQ_POLARITY_LOW + ARM_GPIO_IRQ_SENSITIVE_EDGE;
-    ret1 = gpioDrv15->Control(BUTTON, ARM_GPIO_ENABLE_INTERRUPT, &button_irq_settings);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to configure interrupt\n");
-        goto error_power_off;
-    }
-
-    /* Toggle LED ON and start waiting for button */
-    ret1 = gpioDrv12->SetValue(LED0_R, GPIO_PIN_OUTPUT_STATE_HIGH);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to toggle LEDs\n");
-        goto error_power_off;
-    }
+    /* Set LED ON and start waiting for button */
+    BOARD_LED1_Control(BOARD_LED_STATE_HIGH);
 
     while (1)
     {
@@ -124,49 +62,16 @@ void led_blink_app (ULONG thread_input)
 
         /* wait for button press event */
         status = tx_event_flags_get(&event_flags_button, BUTTON_EVENT, TX_OR_CLEAR, &events_button, TX_WAIT_FOREVER);
-
-        /* Toggle Red LED */
-        ret1 = gpioDrv12->SetValue(LED0_R, GPIO_PIN_OUTPUT_STATE_TOGGLE);
-        if ((ret1 != ARM_DRIVER_OK)) {
-            printf("ERROR: Failed to toggle LEDs\n");
-            goto error_power_off;
-        }
-    }
-
-error_power_off:
-
-    ret1 = gpioDrv12->PowerControl(LED0_R, ARM_POWER_OFF);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to power off \n");
-    } else {
-        printf("LEDs power off \n");
-    }
-    ret1 = gpioDrv15->PowerControl(BUTTON, ARM_POWER_OFF);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("ERROR: Failed to power off \n");
-    } else {
-        printf("Button power off \n");
-    }
-
-error_uninitialize:
-
-    ret1 = gpioDrv12->Uninitialize(LED0_R);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("Failed to Un-initialize \n");
-    } else {
-        printf("Un-initialized \n");
-    }
-    ret1 = gpioDrv15->Uninitialize(BUTTON);
-    if ((ret1 != ARM_DRIVER_OK)) {
-        printf("Failed to Un-initialize \n");
-    } else {
-        printf("Un-initialized \n");
+        /* Toggle LED */
+        BOARD_LED1_Control(BOARD_LED_STATE_TOGGLE);
     }
 }
 
 /* Define main entry point.  */
 int main ()
 {
+    BOARD_Pinmux_Init();
+
     #if defined(RTE_Compiler_IO_STDOUT_User)
     int32_t ret;
     ret = stdout_init();

@@ -231,6 +231,17 @@ int  main(void)
          return 0;
     }
 
+#if defined(RTE_Compiler_IO_STDOUT_User)
+    int32_t ret;
+    ret = stdout_init();
+    if(ret != ARM_DRIVER_OK)
+    {
+        while(1)
+        {
+        }
+    }
+#endif
+
     /*
      * Note:
      * This demo uses a specific profile setting that only enables the
@@ -241,9 +252,7 @@ int  main(void)
      * remove the request altogether to use the default setting that turns on
      * almost everything.
      */
-
-    runp.phy_pwr_gating |=  USB_PHY_MASK;
-    runp.memory_blocks = SRAM2_MASK | SRAM3_MASK | MRAM_MASK;
+    runp.phy_pwr_gating |= USB_PHY_MASK;
 
     /* Set the current run configuration to SE */
     error_code = SERVICES_set_run_cfg(se_services_s_handle, &runp,
@@ -253,16 +262,7 @@ int  main(void)
          printf("SE: set_run_cfg error = %d\n", error_code);
          return 0;
     }
-    #if defined(RTE_Compiler_IO_STDOUT_User)
-    int32_t ret;
-    ret = stdout_init();
-    if(ret != ARM_DRIVER_OK)
-    {
-        while(1)
-        {
-        }
-    }
-    #endif
+
 
     /* Enter the ThreadX kernel.  */
     printf("Started USBx driver app\n");

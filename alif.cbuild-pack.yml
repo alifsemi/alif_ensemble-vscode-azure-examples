@@ -9,6 +9,9 @@ cbuild-pack:
     - resolved-pack: AlifSemiconductor::AzureRTOS@1.3.0
       selected-by-pack:
         - AlifSemiconductor::AzureRTOS@1.3.0
+    - resolved-pack: AlifSemiconductor::Ensemble@1.3.0-E1C
+      selected-by-pack:
+        - AlifSemiconductor::Ensemble@1.3.0-E1C
     - resolved-pack: AlifSemiconductor::Ensemble@1.3.1
       selected-by-pack:
         - AlifSemiconductor::Ensemble@1.3.1

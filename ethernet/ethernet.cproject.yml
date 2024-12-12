@@ -17,7 +17,10 @@ project:
       - bin
 
   layers:
-    - layer: ../device/alif-ensemble.clayer.yml
+    - layer: ../device/ensemble/alif-ensemble.clayer.yml
+      for-context:
+      - +HE
+      - +HP
 
   components:
     - component: AlifSemiconductor::RTOS&AzureRTOS:Kernel:Core

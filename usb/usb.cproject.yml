@@ -16,7 +16,14 @@ project:
       - bin
 
   layers:
-    - layer: ../device/alif-ensemble.clayer.yml
+    - layer: ../device/ensemble/alif-ensemble.clayer.yml
+      for-context:
+      - +HE
+      - +HP
+
+    - layer: ../device/e1c/alif-e1c.clayer.yml
+      for-context:
+      - +E1C
 
   components:
     - component: AlifSemiconductor::RTOS&AzureRTOS:Kernel:Core
