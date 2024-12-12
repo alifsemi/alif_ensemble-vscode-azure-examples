@@ -16,7 +16,7 @@ project:
       - bin
 
   layers:
-    - layer: ../device/alif-ensemble.clayer.yaml
+    - layer: ../device/alif-ensemble.clayer.yml
 
   components:
     - component: AlifSemiconductor::RTOS&AzureRTOS:Kernel:Core

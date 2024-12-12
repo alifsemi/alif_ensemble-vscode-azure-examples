@@ -42,7 +42,7 @@ solution:
     - asm: __asm #Fix compilation of retarget_syscalls.c
 
   projects:
-    - project: blinky/blinky.cproject.yaml
-    - project: sd_card/sd_card.cproject.yaml
-    - project: usb/usb.cproject.yaml
-    - project: ethernet/ethernet.cproject.yaml
+    - project: blinky/blinky.cproject.yml
+    - project: sd_card/sd_card.cproject.yml
+    - project: usb/usb.cproject.yml
+    - project: ethernet/ethernet.cproject.yml

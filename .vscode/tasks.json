@@ -19,26 +19,18 @@
                 "command": [
                     "cbuild ${command:cmsis-csolution.getSolutionPath} --clean;",
                     "rm -Force ./blinky/*.cbuild.yml;",
-                    "rm -Force ./blinky/*.cprj;",
                     "rm -Force ./ethernet/*.cbuild.yml;",
-                    "rm -Force ./ethernet/*.cprj;",
                     "rm -Force ./sd_card/*.cbuild.yml;",
-                    "rm -Force ./sd_card/*.cprj;",
-                    "rm -Force ./usb/*.cbuild.yml;",
-                    "rm -Force ./usb/*.cprj;"
+                    "rm -Force ./usb/*.cbuild.yml;"
                 ]
             },
             "linux": {
                 "command": [
                     "cbuild ${command:cmsis-csolution.getSolutionPath} --clean;",
                     "rm -f ./blinky/*.cbuild.yml;",
-                    "rm -f ./blinky/*.cprj;",
                     "rm -f ./ethernet/*.cbuild.yml;",
-                    "rm -f ./ethernet/*.cprj;",
                     "rm -f ./sd_card/*.cbuild.yml;",
-                    "rm -f ./sd_card/*.cprj;",
-                    "rm -f ./usb/*.cbuild.yml;",
-                    "rm -f ./usb/*.cprj;"
+                    "rm -f ./usb/*.cbuild.yml;"
                 ]
             },
             "problemMatcher": []
